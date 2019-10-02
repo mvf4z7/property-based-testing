@@ -32,4 +32,9 @@ defmodule ElixirPbt.Set do
   def put(%Set{} = set, element) do
     put_in(set.map[element], @dummy_value)
   end
+
+  def delete(%Set{} = set, element) do
+    {_value, new_set} = pop_in(set.map[element])
+    new_set
+  end
 end

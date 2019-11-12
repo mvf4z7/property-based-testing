@@ -67,4 +67,31 @@ defmodule ElixirPbt.ExamplesTest do
       assert length(sorted) == length(terms)
     end
   end
+
+  property "Calling reverse on a list twice should result in the original list" do
+    check all(list <- list_of(integer())) do
+      result =
+        list
+        |> Enum.reverse()
+        |> Enum.reverse()
+
+      assert result == list
+    end
+  end
+
+  property "Sorting a list should be idempotent" do
+    check all(
+            list <- list_of(term()),
+            times <- integer(2..10)
+          ) do
+      initial_value = Enum.sort(list)
+
+      result =
+        Enum.reduce(1..times, initial_value, fn _count, acc ->
+          Enum.sort(acc)
+        end)
+
+      assert result == initial_value
+    end
+  end
 end

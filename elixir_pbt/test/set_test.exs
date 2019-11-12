@@ -253,8 +253,8 @@ defmodule ElixirPbt.SetTest do
 
   property "The intersection of two Sets is commutative" do
     check all(
-            terms1 <- term() |> list_of(),
-            terms2 <- term() |> list_of()
+            terms1 <- list_of(term()),
+            terms2 <- list_of(term())
           ) do
       set1 = Set.new(terms1)
       set2 = Set.new(terms2)
@@ -292,7 +292,7 @@ defmodule ElixirPbt.SetTest do
 
   # Used as an example for shrinking. The put many function has a bug in it
   # where it won't put any numbers in the set that are divisible by 4.
-  @tag :skip
+  @tag :shrinking_example
   property "A set should be able to have multiple terms put at one time" do
     check all(terms <- list_of(term())) do
       set =
